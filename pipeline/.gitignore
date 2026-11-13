@@ -1,0 +1,6 @@
+models/
+node_modules/
+work/
+out/
+package-lock.json
+package.json
