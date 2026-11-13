@@ -1,0 +1,78 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;height:1920px;overflow:hidden;background:#0d0b1f;font-family:Poppins,sans-serif;color:#fff}
+.scene{position:absolute;inset:0;opacity:0}
+.half{position:absolute;left:0;width:1080px;height:960px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 80px;text-align:center}
+.a{top:0;background:radial-gradient(circle at 50% 40%,#ff5a6e,#d91e48);padding-top:170px}
+.b{top:960px;background:radial-gradient(circle at 50% 60%,#3d8bff,#1b3fd1);padding-bottom:230px}
+.emo{font-size:280px;line-height:1.1;font-family:"Noto Color Emoji";filter:drop-shadow(0 18px 24px rgba(0,0,0,.35))}
+.txt{font-weight:800;font-size:78px;line-height:1.12;margin-top:24px;text-shadow:0 6px 0 rgba(0,0,0,.22)}
+.tag{position:absolute;font-weight:800;font-size:54px;width:96px;height:96px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.a .tag{color:#d91e48;left:60px;top:230px}.b .tag{color:#1b3fd1;left:60px;top:60px}
+.badge{position:absolute;left:390px;top:810px;width:300px;height:300px;border-radius:50%;background:#0d0b1f;border:14px solid #fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:150px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.badge span{position:absolute}
+.head{position:absolute;top:70px;left:0;width:1080px;text-align:center;font-weight:800;font-size:50px;letter-spacing:6px}
+.head b{background:#0d0b1f;padding:14px 40px;border-radius:60px}
+.bar{position:absolute;top:0;left:0;height:16px;background:#ffd23f;width:0;z-index:9}
+.big{position:absolute;left:0;width:1080px;text-align:center;font-weight:800;font-size:150px;line-height:1.05}
+.dim{background:rgba(0,0,0,.55);position:absolute;left:0;width:1080px;height:960px;opacity:0}
+#hook,#outro{background:radial-gradient(circle at 50% 45%,#2a1f6b,#0d0b1f)}
+.q{position:absolute;font-weight:800;font-size:420px;opacity:.13}
+.brand{position:absolute;bottom:330px;left:0;width:1080px;text-align:center;font-weight:700;font-size:58px;color:#ffd23f}
+.sub{position:absolute;left:0;width:1080px;text-align:center;font-weight:600;font-size:60px;color:#cfd3ff}
+</style></head><body>
+<div class="bar" id="bar"></div><div id="root"></div>
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script>
+const TL=__TIMELINE__, ep=TL.ep, root=document.getElementById('root');
+const tl=gsap.timeline({paused:true}); 
+function el(html){const d=document.createElement('div');d.innerHTML=html;root.appendChild(d.firstElementChild);return root.lastElementChild}
+TL.segs.forEach((s,si)=>{
+ const next=TL.segs[si+1];
+ if(s.type=='hook'){
+  const sc=el(`<div class="scene" id="hook"><div class="q" style="left:60px;top:160px;color:#ff5a6e">?</div><div class="q" style="right:70px;top:1150px;color:#3d8bff">?</div>
+   <div class="big" style="top:640px"><div class="l1">${ep.hookText[0]}</div><div class="l2" style="color:#ffd23f">${ep.hookText[1]}</div></div>
+   <div class="sub" style="top:1060px">¿Cuál escoges? 👇</div></div>`);
+  tl.set(sc,{opacity:1},0).from(sc.querySelector('.l1'),{y:-300,opacity:0,duration:.35,ease:'back.out(1.6)'},.05)
+   .from(sc.querySelector('.l2'),{scale:2.6,opacity:0,duration:.35,ease:'back.out(1.8)'},.4)
+   .from(sc.querySelector('.sub'),{y:80,opacity:0,duration:.3},1.0)
+   .to(sc.querySelectorAll('.q'),{rotation:18,y:-40,duration:s.end,ease:'sine.inOut'},0)
+   .to(sc,{opacity:0,duration:.2},s.end-.2);
+ }
+ if(s.type=='dilemma'){
+  const d=ep.dilemmas[s.i],N=ep.dilemmas.length;
+  const sc=el(`<div class="scene"><div class="half a"><div class="tag">A</div><div class="emo">${d.a.e}</div><div class="txt">${d.a.t}</div></div>
+   <div class="half b"><div class="tag">B</div><div class="emo">${d.b.e}</div><div class="txt">${d.b.t}</div></div>
+   <div class="head"><b>DILEMA ${s.i+1}/${N}</b></div>
+   <div class="badge"><span class="o">O</span><span class="c3">3</span><span class="c2">2</span><span class="c1">1</span></div></div>`);
+  const a=sc.querySelector('.a'),b=sc.querySelector('.b'),t0=s.start,half=(s.count-s.start)/2;
+  tl.set(sc,{opacity:1},t0).set(sc.querySelectorAll('.c3,.c2,.c1'),{opacity:0,scale:.3},t0)
+   .from(a,{y:-960,duration:.35,ease:'power3.out'},t0).from(b,{y:960,duration:.35,ease:'power3.out'},t0)
+   .from(sc.querySelector('.badge'),{scale:0,rotation:-180,duration:.4,ease:'back.out(2)'},t0+.2)
+   .from(sc.querySelector('.head'),{y:-200,duration:.3},t0+.25)
+   .from(a.querySelector('.emo'),{scale:0,duration:.45,ease:'back.out(2.2)'},t0+.4)
+   .from(a.querySelector('.txt'),{opacity:0,y:50,duration:.3},t0+.55)
+   .from(b.querySelector('.emo'),{scale:0,duration:.45,ease:'back.out(2.2)'},t0+.3+half)
+   .from(b.querySelector('.txt'),{opacity:0,y:50,duration:.3},t0+.45+half)
+   .to(sc.querySelectorAll('.emo'),{y:-22,duration:.6,yoyo:true,repeat:Math.ceil((s.end-t0)/.6),ease:'sine.inOut'},t0+1)
+   .to(sc.querySelector('.o'),{opacity:0,scale:.3,duration:.15},s.count-.15);
+  ['.c3','.c2','.c1'].forEach((c,k)=>{const x=sc.querySelector(c);
+   tl.to(x,{opacity:1,scale:1,duration:.2,ease:'back.out(3)'},s.count+k).to(sc.querySelector('.badge'),{scale:1.12,duration:.1,yoyo:true,repeat:1},s.count+k)
+     .to(x,{opacity:0,scale:1.8,duration:.2},s.count+k+.8)});
+  tl.to(a,{x:-1080,duration:.22,ease:'power2.in'},s.end-.22).to(b,{x:1080,duration:.22,ease:'power2.in'},s.end-.22)
+    .to(sc.querySelectorAll('.badge,.head'),{scale:0,duration:.2},s.end-.22).set(sc,{opacity:0},s.end);
+ }
+ if(s.type=='outro'){
+  const sc=el(`<div class="scene" id="outro"><div class="big" style="top:520px;font-size:140px"><div class="l1">${ep.outroText[0]}</div><div class="l2" style="color:#ffd23f">${ep.outroText[1]}</div></div>
+   <div class="sub" style="top:900px;font-size:130px;font-family:'Noto Color Emoji'">👇💬</div>
+   <div class="sub" style="top:1130px">Mañana, un dilema nuevo</div><div class="brand">▶ DILEMA DIARIO · SÍGUEME</div></div>`);
+  tl.set(sc,{opacity:1},s.start).from(sc.querySelector('.l1'),{x:-1080,duration:.35,ease:'power3.out'},s.start+.05)
+   .from(sc.querySelector('.l2'),{x:1080,duration:.35,ease:'power3.out'},s.start+.2)
+   .from(sc.querySelectorAll('.sub'),{y:120,opacity:0,duration:.35,stagger:.5},s.start+.6)
+   .from(sc.querySelector('.brand'),{scale:0,duration:.4,ease:'back.out(2)'},s.start+2.2)
+   .to(sc.querySelector('.brand'),{scale:1.07,duration:.4,yoyo:true,repeat:6},s.start+2.7);
+ }
+});
+tl.to('#bar',{width:1080,duration:TL.total,ease:'none'},0);
+window.seek=t=>{tl.time(t,false);return true}; window.ready=document.fonts.ready.then(()=>true);
+</script></body></html>

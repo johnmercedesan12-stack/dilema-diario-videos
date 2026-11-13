@@ -1,0 +1,13 @@
+{
+ "n": 1,
+ "hook": "Solo puedes elegir una. ¿Cuál escoges?",
+ "hookText": ["SOLO PUEDES", "ELEGIR UNA"],
+ "dilemmas": [
+  {"say": "Dilema uno. ¿Poder volar... o ser invisible?", "a": {"e": "🦅", "t": "Poder volar"}, "b": {"e": "👻", "t": "Ser invisible"}},
+  {"say": "Dilema dos. ¿Un millón de dólares hoy... o diez mil dólares cada mes, para siempre?", "a": {"e": "💰", "t": "1 millón de dólares hoy"}, "b": {"e": "💵", "t": "10 mil dólares al mes para siempre"}},
+  {"say": "Dilema tres. ¿Leer la mente de todos... o que nadie pueda mentirte jamás?", "a": {"e": "🧠", "t": "Leer la mente de todos"}, "b": {"e": "🤥", "t": "Que nadie pueda mentirte"}},
+  {"say": "Y el más difícil. ¿Volver al pasado para corregir un error... o viajar al futuro para ver cómo termina tu vida?", "a": {"e": "⏪", "t": "Volver al pasado y corregir un error"}, "b": {"e": "🔮", "t": "Ver cómo termina tu vida"}}
+ ],
+ "outro": "Comenta tus cuatro respuestas. Y sígueme, mañana hay un dilema nuevo.",
+ "outroText": ["COMENTA TUS", "4 RESPUESTAS"]
+}
